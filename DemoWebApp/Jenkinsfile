@@ -1,6 +1,7 @@
 pipeline {
 
     environment {
+        scannerHome = tool name:'sonar_scanner_dotnet', type:'hudson.plugins.sonar.MsBuildSQRunnerInstallation'
         registry = "shahrukhahmed/demoapp"
         registryCredential = 'docker-hub-cred'
         dockerImage = ''
@@ -38,10 +39,27 @@ pipeline {
             bat "dotnet restore DemoWebApp\\DemoWebApp.sln"
         }
     }
+
+    stage('Start Sonarqube Analysis'){
+        steps{
+            withSonarQubeEnv('Test_Sonar'){
+                    echo "${scannerHome}"
+	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /o:\"ahmed-shah0906\" /k:\"sonar-demo-app\""
+	        }
+        }
+    }
     
     stage('Code Build'){
         steps{
             bat "dotnet build DemoWebApp\\DemoWebApp.sln"
+        }
+    }
+
+    stage('End Sonar Analysis'){
+        steps{
+            withSonarQubeEnv('Test_Sonar'){
+	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
+	            }
         }
     }
 
@@ -63,7 +81,7 @@ pipeline {
         steps{
             script {
                 docker.withRegistry( '', registryCredential ) { 
-                        dockerImage.push()
+                    dockerImage.push()
                 }
             }
         }
