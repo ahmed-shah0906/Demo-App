@@ -44,7 +44,7 @@ pipeline {
         steps{
             withSonarQubeEnv('sonar_local'){
                     echo "${scannerHome}"
-	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /o:\"ahmed-shah0906\" /k:\"sonar-demo-app\""
+	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /k:\"sonar-demo-app\""
 	        }
         }
     }
