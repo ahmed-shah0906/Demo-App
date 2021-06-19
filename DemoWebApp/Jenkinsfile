@@ -20,9 +20,9 @@ pipeline {
 
 
     stages {
-        stage('Develop Pipeline'){
+        stage('Master Pipeline'){
             steps{
-                echo "hello! I’m in develop environment"
+                echo "hello! I’m in master environment"
             }
         }
         stage('Checkout') {
@@ -42,7 +42,7 @@ pipeline {
 
     stage('Start Sonarqube Analysis'){
         steps{
-            withSonarQubeEnv('Sonar_server'){
+            withSonarQubeEnv('sonar_local'){
                     echo "${scannerHome}"
 	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /o:\"ahmed-shah0906\" /k:\"sonar-demo-app\""
 	        }
@@ -57,7 +57,7 @@ pipeline {
 
     stage('End Sonar Analysis'){
         steps{
-            withSonarQubeEnv('Sonar_server'){
+            withSonarQubeEnv('sonar_local'){
 	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
 	            }
         }
