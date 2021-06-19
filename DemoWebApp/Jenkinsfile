@@ -28,25 +28,25 @@ pipeline {
         
     stage('Nuget Restore'){
         steps{
-            bat "dotnet restore TestWebApp\\TestWebApp.sln"
+            bat "dotnet restore DemoWebApp\\DemoWebApp.sln"
         }
     }
     
     stage('Code Build'){
         steps{
-            bat "dotnet build TestWebApp\\TestWebApp.sln"
+            bat "dotnet build DemoWebApp\\DemoWebApp.sln"
         }
     }
 
     stage('Unit Tests'){
         steps{
-            bat "dotnet test TestWebApp\\WebAppUT\\WebAppUT.csproj --no-build"
+            bat "dotnet test DemoWebApp\\DemoUT\\DemoUT.csproj --no-build"
         }
     }
     
     stage('Release Artifacts'){
         steps{
-            bat "dotnet publish TestWebApp\\TestWebApp.sln -c Release"
+            bat "dotnet publish DemoWebApp\\DemoWebApp.sln -c Release"
         }
     }
 
