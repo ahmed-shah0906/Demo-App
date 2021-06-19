@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore "DemoWebApp/DemoWebApp.csproj" --source https://api.nuget.org/v3/index.json
+RUN dotnet restore "DemoWebApp/DemoWebApp.csproj"
 
 FROM build AS publish
 RUN dotnet publish "DemoWebApp.csproj" -c Release -o /app/publish
