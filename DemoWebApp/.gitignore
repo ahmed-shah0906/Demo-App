@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/packages/
+**/*.suo
+**/*.user
+**/*.e2e
+/.vs
+**/*.jfm
+**/*.dbmdl
+**/.vs/

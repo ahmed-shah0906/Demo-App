@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    
+    options {
+        
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '5', numToKeepStr: '5'))
+
+	    disableConcurrentBuilds()
+		
+	    skipDefaultCheckout()
+    }
+
+
+    stages {
+        stage('Develop Pipeline'){
+            steps{
+                echo "hello! I’m in develop environment"
+            }
+        }
+        stage('Checkout') {
+            steps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+            userRemoteConfigs: [[credentialsId: 'git-hub-password',
+				url: 'https://github.com/ahmed-shah0906/Demo-App.git']]
+            ])
+            }
+        }
+        
+    stage('Nuget Restore'){
+        steps{
+            bat "dotnet restore TestWebApp\\TestWebApp.sln"
+        }
+    }
+    
+    stage('Code Build'){
+        steps{
+            bat "dotnet build TestWebApp\\TestWebApp.sln"
+        }
+    }
+
+    stage('Unit Tests'){
+        steps{
+            bat "dotnet test TestWebApp\\WebAppUT\\WebAppUT.csproj --no-build"
+        }
+    }
+    
+    stage('Release Artifacts'){
+        steps{
+            bat "dotnet publish TestWebApp\\TestWebApp.sln -c Release"
+        }
+    }
+
+	}
+	
+    post{
+		always {
+    		cleanWs()
+  		}
+	}	
+}
