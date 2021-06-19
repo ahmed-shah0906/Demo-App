@@ -1,4 +1,11 @@
 pipeline {
+
+    environment {
+        registry = "shahrukhahmed/demoapp"
+        registryCredential = 'docker-hub-cred'
+        dockerImage = ''
+    }
+
     agent any
     
     options {
@@ -46,7 +53,19 @@ pipeline {
     
     stage('Create Image'){
         steps{
-            bat "docker build -t shahrukhahmed/demoapp --no-cache -f DemoWebApp\\Dockerfile ."
+            script {
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+        }
+    }
+
+    stage('Push Image'){
+        steps{
+            script {
+                docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push()
+                }
+            }
         }
     }
 
