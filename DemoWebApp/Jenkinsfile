@@ -46,7 +46,7 @@ pipeline {
     
     stage('Create Image'){
         steps{
-            bat "docker build -t shahrukhahmed/demoapp --no-cache -f Dockerfile ."
+            bat "docker build -t shahrukhahmed/demoapp --no-cache -f DemoWebApp\\Dockerfile ."
         }
     }
 
