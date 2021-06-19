@@ -20,9 +20,9 @@ pipeline {
 
 
     stages {
-        stage('Master Pipeline'){
+        stage('Develop Pipeline'){
             steps{
-                echo "hello! I’m in master environment"
+                echo "hello! I’m in develop environment"
             }
         }
         stage('Checkout') {
