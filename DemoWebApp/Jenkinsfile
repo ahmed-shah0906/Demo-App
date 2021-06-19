@@ -42,7 +42,7 @@ pipeline {
 
     stage('Start Sonarqube Analysis'){
         steps{
-            withSonarQubeEnv('Test_Sonar'){
+            withSonarQubeEnv('Sonar_server'){
                     echo "${scannerHome}"
 	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /o:\"ahmed-shah0906\" /k:\"sonar-demo-app\""
 	        }
@@ -57,7 +57,7 @@ pipeline {
 
     stage('End Sonar Analysis'){
         steps{
-            withSonarQubeEnv('Test_Sonar'){
+            withSonarQubeEnv('Sonar_server'){
 	                bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
 	            }
         }
