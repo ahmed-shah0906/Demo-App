@@ -44,9 +44,9 @@ pipeline {
         }
     }
     
-    stage('Release Artifacts'){
+    stage('Create Image'){
         steps{
-            bat "dotnet publish DemoWebApp\\DemoWebApp.sln -c Release"
+            bat "docker build -t shahrukhahmed/demoapp --no-cache -f Dockerfile ."
         }
     }
 
