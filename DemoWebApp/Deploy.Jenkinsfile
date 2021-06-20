@@ -43,5 +43,12 @@ pipeline {
             }
             
         }
+        stage('Post Actions') {
+            steps {
+                script {
+                    echo "Pipeline Finished"
+                }
+            }
+        }
    }
 }
